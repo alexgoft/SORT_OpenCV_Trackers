@@ -1,0 +1,1 @@
+Reimplemented SORT (Simple Online and Realtime Tracking- https://arxiv.org/abs/1602.00763) framework for multi object detection to be compatible with opencv provided trackers (BOOSTING, MIL, KCF, CSRT, MedianFlow, TLD, MOSSE, GOTURN)
