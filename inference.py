@@ -3,13 +3,10 @@
 #########################################################################################
 import time
 import cv2
-import numpy as np
-import tensorflow as tf
 
 from object_detector import Detector
-from tracker import Tracker
+from sort import Sort
 from config import *
-
 
 
 #########################################################################################
@@ -17,6 +14,7 @@ from config import *
 #########################################################################################
 
 def main():
+
     # ----------------------------------------- #
     # INITIALIZE DETECTOR
     # ----------------------------------------- #
@@ -25,12 +23,11 @@ def main():
     # ----------------------------------------- #
     # INITIALIZE TRACKER
     # ----------------------------------------- #
-    chosen_tracker = OPENCV_OBJECT_TRACKERS[TRACKER_TYPE]
-    mot_tracker = Tracker(DEFAULT_MAX_AGE,
-                          DEFAULT_MIN_HITS,
-                          DEFAULT_USE_TIME_SINCE_UPDATE,
-                          DEFAULT_IOU_THRESHOLD,
-                          chosen_tracker)
+    mot_tracker = Sort(max_age=DEFAULT_MAX_AGE,
+                       min_hits=DEFAULT_MIN_HITS,
+                       use_time_since_update=DEFAULT_USE_TIME_SINCE_UPDATE,
+                       iou_threshold=DEFAULT_IOU_THRESHOLD,
+                       tracker_type=TRACKER_TYPE)
 
     # ----------------------------------------- #
     # INITIALIZE STREAM
@@ -54,34 +51,31 @@ def main():
         # --- GET DETECTIONS --- #
         boxes, scores, classes = detector.predict(image=image)
         for box, score, clas in zip(boxes, scores, classes):
-
             dets.append(box)
             datas.append([score, clas])
 
         # --- GET PREDICTIONS --- #
-        # tracks = mot_tracker.get_trackers_predictions(dets, datas, isOpened)
+        tracks, tracks_ids = mot_tracker.update_and_get_tracks(dets, image)
 
-        # --- SHOW IMAGES AND BOXES ---
+        # --- SHOW IMAGES AND BOXES --- #
         if DISPLAY:
             if SHOW_BBOXES:
 
                 for det, data in zip(dets, datas):
                     xmin, ymin, xmax, ymax = [int(i) for i in det]
-                    score = data[0]
 
                     # Display boxes.
                     cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (255, 255, 255), 5)
-                    # cv2.putText(image, str(score), (xmin, ymin), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 5)
 
-                # for track in tracks:
-                #     xmin, ymin, xmax, ymax = [int(i) for i in track]
-                #
-                #     cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (255, 255, 255), 2)
+                for id, track in zip(tracks_ids, tracks):
+                    xmin, ymin, xmax, ymax = [int(i) for i in track]
+
+                    cv2.rectangle(image, pt1=(xmin, ymin), pt2=(xmax, ymax), color=TRACKER_COLORS[id], thickness=2)
 
             cv2.imshow('MultiTracker', image)
-            cv2.waitKey(1)
+            cv2.waitKey()
 
-        # --- Write to disk ---
+        # --- Write to disk --- #
         if WRITE:
             if out is None:
                 out_file_name = INPUT_VIDEO_PATH.rsplit('.', 1)[0] + '_out.mp4'
@@ -91,8 +85,7 @@ def main():
             out.write(image)
 
         # --- Print Stats ---
-        if frame_num % 50 == 0:
-            print('FRAME NUMBER: %f. FPS: %f' % (frame_num, 50.0 / (time.time() - frame_time_start)))
+        print('FRAME NUMBER: %d. FPS: %f' % (frame_num, 1 / (time.time() - frame_time_start)))
 
         frame_num += 1
 

@@ -1,4 +1,4 @@
-import cv2
+import numpy as np
 
 #########################################################################################
 # DETECTOR
@@ -16,24 +16,13 @@ DEFAULT_USE_TIME_SINCE_UPDATE = 200
 DEFAULT_IOU_THRESHOLD = 0.5
 DEFAULT_MIN_SCORE = 0.2
 TRACKER_TYPE = 'medianflow'
+TRACKER_COLORS = [tuple([int(x) for x in np.random.choice(range(256), size=3)]) for _ in range(50)]
 
-#########################################################################################
-# Trackers
-#########################################################################################
-OPENCV_OBJECT_TRACKERS = {
-    "csrt": cv2.TrackerCSRT_create,
-    "kcf": cv2.TrackerKCF_create,
-    "boosting": cv2.TrackerBoosting_create,
-    "mil": cv2.TrackerMIL_create,
-    "tld": cv2.TrackerTLD_create,
-    "medianflow": cv2.TrackerMedianFlow_create,
-    "mosse": cv2.TrackerMOSSE_create
-}
 
 #########################################################################################
 # GENERAL
 #########################################################################################
-INPUT_VIDEO_PATH = "data/videos/man_walking.mp4"
+INPUT_VIDEO_PATH = "/hdd/SORT_OpenCV_Trackers/data/videos/people.mp4"
 
 SHOW_BBOXES = True
 DISPLAY = True
