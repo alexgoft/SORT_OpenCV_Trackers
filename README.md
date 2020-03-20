@@ -5,7 +5,7 @@ Reimplemented SORT (Simple Online and Realtime Tracking- https://arxiv.org/abs/1
 ![alt text](https://i.imgur.com/AvUB1aw.png)
 
 ### Output Example
-![alt text](https://im3.ezgif.com/tmp/ezgif-3-b4da9e9c1e26.gif)
+![alt text](https://i.imgur.com/rWxtHAt.gif)
 
 - White BBOXs are Detections.
 - Colored BBOXs are Predictions.
