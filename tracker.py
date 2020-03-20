@@ -1,6 +1,6 @@
 import numpy
 
-from custom_sort import Sort
+from sort import Sort
 
 
 class Tracker(object):

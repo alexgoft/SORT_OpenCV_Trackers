@@ -1,9 +1,10 @@
 #########################################################################################
 #
 #########################################################################################
-from track import Track
 import numpy as np
 import utils
+
+from track import Track
 
 
 #########################################################################################
@@ -81,7 +82,6 @@ class Sort(object):
             #         (track.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):
             if (track.time_since_update < self.use_time_since_update) and \
                     (track.hits >= self.min_hits or self.frame_count <= self.min_hits):
-
                 returned_preds.append(utils.convert_xywh_to_bbox(pos))
 
         if len(returned_preds) > 0:

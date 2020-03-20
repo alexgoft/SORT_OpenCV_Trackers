@@ -3,8 +3,8 @@ import cv2
 #########################################################################################
 # DETECTOR
 #########################################################################################
-DETECTOR_GRAPH_PATH = 'data/videos/people_walking.mp4'
-DETECTOR_CONF = 0.8
+DETECTOR_GRAPH_PATH = 'data/checkpoints/faster_rcnn_inception_v2_coco/frozen_inference_graph.pb'
+DETECTOR_CONF = 0.95
 DETECTOR_CLASSES = {1: "PERSON"}
 
 #########################################################################################
@@ -15,7 +15,7 @@ DEFAULT_MIN_HITS = 1
 DEFAULT_USE_TIME_SINCE_UPDATE = 200
 DEFAULT_IOU_THRESHOLD = 0.5
 DEFAULT_MIN_SCORE = 0.2
-TRACKER_TYPE = 'kalman'
+TRACKER_TYPE = 'medianflow'
 
 #########################################################################################
 # Trackers
@@ -33,13 +33,8 @@ OPENCV_OBJECT_TRACKERS = {
 #########################################################################################
 # GENERAL
 #########################################################################################
-INPUT_VIDEO_PATH = ""
-PLOT_TRACKS_COLOR = "Violet"  # None to disable
-PLOT_RAW_DETECTIONS_COLOR = None  # None to disable
-DETECTION_BBOX_CENTER_DOT_COLOR = None  # None to disable
-BBOX_FRAME_RATIO_THRESHOLD = 0.2
-SCORE_THRESHOLD = 0.5
-ENLARGE_BBOX_PERCANTAGE = 0.03
+INPUT_VIDEO_PATH = "data/videos/man_walking.mp4"
+
 SHOW_BBOXES = True
-BLUR_BBOXES = True
 DISPLAY = True
+WRITE = False

@@ -53,14 +53,14 @@ class Detector:
             cls = classes[0, i]
 
             if score >= DETECTOR_CONF and cls in DETECTOR_CLASSES:
-                box = (int(boxes[0, i, 0] * im_height),
-                       int(boxes[0, i, 1] * im_width),
-                       int(boxes[0, i, 2] * im_height),
-                       int(boxes[0, i, 3] * im_width))
+                box = (int(boxes[0, i, 1] * im_width),
+                       int(boxes[0, i, 0] * im_height),
+                       int(boxes[0, i, 3] * im_width),
+                       int(boxes[0, i, 2] * im_height)
+                )
 
                 boxes_out.append(box)
                 scores_out.append(score)
                 classes_out.append(cls)
 
         return boxes_out, scores_out, classes_out
-
